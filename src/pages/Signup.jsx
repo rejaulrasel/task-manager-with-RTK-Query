@@ -1,21 +1,27 @@
-import { useEffect, useState } from 'react';
-import loginImage from '../assets/image/login.svg';
-import { useForm, useWatch } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import loginImage from "../assets/image/login.svg";
+import { useForm, useWatch } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { createUser } from "../redux/features/user/userSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 const Signup = () => {
   const { handleSubmit, register, control } = useForm();
-  const password = useWatch({ control, name: 'password' });
-  const confirmPassword = useWatch({ control, name: 'confirmPassword' });
+  const password = useWatch({ control, name: "password" });
+  const confirmPassword = useWatch({ control, name: "confirmPassword" });
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(true);
+  const dispatch = useDispatch();
+
+  const { email, isLoading, error } = useSelector((state) => state.userSlice);
 
   useEffect(() => {
     if (
       password !== undefined &&
-      password !== '' &&
+      password !== "" &&
       confirmPassword !== undefined &&
-      confirmPassword !== '' &&
+      confirmPassword !== "" &&
       password === confirmPassword
     ) {
       setDisabled(false);
@@ -24,10 +30,29 @@ const Signup = () => {
     }
   }, [password, confirmPassword]);
 
+  useEffect(() => {
+    if(error){
+      toast.error(error)
+    }
+  },[error])
+
   const onSubmit = ({ name, email, password }) => {
-    // Email Password signup
+    dispatch(
+      createUser({
+        email,
+        password,
+        name,
+      })
+    );
     console.log(name, email, password);
+   
   };
+
+  useEffect(() => {
+    if (!isLoading && email) {
+      navigate("/");
+    }
+  }, [email, isLoading, navigate]);
 
   const handleGoogleLogin = () => {
     // Google Login
@@ -35,6 +60,7 @@ const Signup = () => {
 
   return (
     <div className="flex max-w-7xl mx-auto h-screen items-center">
+      <Toaster/>
       <div className="w-1/2">
         <img src={loginImage} className="h-full w-full" alt="" />
       </div>
@@ -48,7 +74,7 @@ const Signup = () => {
                 type="text"
                 id="name"
                 className="w-full rounded-md"
-                {...register('name')}
+                {...register("name")}
               />
             </div>
             <div className="flex flex-col items-start">
@@ -57,7 +83,7 @@ const Signup = () => {
                 type="email"
                 id="email"
                 className="w-full rounded-md"
-                {...register('email')}
+                {...register("email")}
               />
             </div>
             <div className="flex flex-col items-start">
@@ -66,7 +92,7 @@ const Signup = () => {
                 type="password"
                 id="password"
                 className="w-full rounded-md"
-                {...register('password')}
+                {...register("password")}
               />
             </div>
             <div className="flex flex-col items-start">
@@ -75,7 +101,7 @@ const Signup = () => {
                 type="password"
                 id="confirm-password"
                 className="w-full rounded-md"
-                {...register('confirmPassword')}
+                {...register("confirmPassword")}
               />
             </div>
             <div className="!mt-8 ">
@@ -89,10 +115,10 @@ const Signup = () => {
             </div>
             <div>
               <p>
-                Already have an account?{' '}
+                Already have an account?{" "}
                 <span
                   className="text-primary hover:underline cursor-pointer"
-                  onClick={() => navigate('/login')}
+                  onClick={() => navigate("/login")}
                 >
                   Login
                 </span>

@@ -2,16 +2,19 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_apiKey,
-  authDomain: import.meta.env.VITE_authDomain,
-  projectId: import.meta.env.VITE_projectId,
-  storageBucket: import.meta.env.VITE_storageBucket,
-  messagingSenderId: import.meta.env.VITE_messagingSenderId,
-  appId: import.meta.env.VITE_appId,
+  apiKey: "AIzaSyClxD1OR6oHc_UiAi1WYihsp4iF5rPPcfE",
+  authDomain: "task-master-redux-5227c.firebaseapp.com",
+  projectId: "task-master-redux-5227c",
+  storageBucket: "task-master-redux-5227c.appspot.com",
+  messagingSenderId: "870637994873",
+  appId: "1:870637994873:web:1e4c767d6dbf407cbc25a8"
 };
 
-const app = initializeApp(firebaseConfig);
+
+export const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
 export default auth;
+
+
