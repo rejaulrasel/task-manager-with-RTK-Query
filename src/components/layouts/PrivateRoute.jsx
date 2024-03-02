@@ -14,7 +14,6 @@ const PrivateRoute = ({ children }) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log(user);
       dispatch(
         setUser({
           name: user.displayName,

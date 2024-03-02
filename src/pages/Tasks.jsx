@@ -2,13 +2,18 @@ import { BellIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import MyTasks from '../components/tasks/MyTasks';
 import TaskCard from '../components/tasks/TaskCard';
 import AddTaskModal from '../components/tasks/AddTaskModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import MenuDropdown from '../components/ui/MenuDropdown';
+import { useGetAllTaskQuery } from '../redux/api/baseApi';
 
 const Tasks = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { tasks } = useSelector((state) => state.tasksSlice);
+  // const { tasks } = useSelector((state) => state.tasksSlice);
+  const {data: tasks} = useGetAllTaskQuery();
+  console.log(tasks);
+  
+  // useEffect(() => {},[tasks])
 
   const pendingTasks = tasks?.filter((item) => item.status == 'pending');
   const runningTasks = tasks?.filter((item) => item.status == 'running');
@@ -22,7 +27,7 @@ const Tasks = () => {
         <div className="col-span-9 px-10 pt-10">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="font-semibold text-3xl">Tasks</h1>
+              <h1 className="font-semibold text-3xl">Tasks {tasks?.length}</h1>
             </div>
             <div className="flex gap-5">
               <button className="border-2 border-secondary/20 hover:border-primary hover:bg-primary rounded-xl h-10 w-10  grid place-content-center text-secondary hover:text-white transition-all">
@@ -53,11 +58,11 @@ const Tasks = () => {
               <div className="flex sticky top-0  justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
                 <h1>Up Next</h1>
                 <p className="bg-primary text-white w-6 h-6 grid place-content-center rounded-md">
-                  {pendingTasks.length}
+                  {pendingTasks?.length}
                 </p>
               </div>
               <div className="space-y-3">
-                {pendingTasks.map((item) => (
+                {pendingTasks?.map((item) => (
                   <TaskCard key={item.id} task={item} />
                 ))}
               </div>
@@ -66,11 +71,11 @@ const Tasks = () => {
               <div className="flex sticky top-0 justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
                 <h1>In Progress</h1>
                 <p className="bg-primary text-white w-6 h-6 grid place-content-center rounded-md">
-                  {runningTasks.length}
+                  {runningTasks?.length}
                 </p>
               </div>
               <div className="space-y-3">
-                {runningTasks.map((item) => (
+                {runningTasks?.map((item) => (
                   <TaskCard key={item.id} task={item} />
                 ))}
               </div>
@@ -79,11 +84,11 @@ const Tasks = () => {
               <div className="flex sticky top-0 justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
                 <h1>Up Next</h1>
                 <p className="bg-primary text-white w-6 h-6 grid place-content-center rounded-md">
-                  {doneTasks.length}
+                  {doneTasks?.length}
                 </p>
               </div>
               <div className="space-y-3">
-                {doneTasks.map((item) => (
+                {doneTasks?.map((item) => (
                   <TaskCard key={item.id} task={item} />
                 ))}
               </div>
