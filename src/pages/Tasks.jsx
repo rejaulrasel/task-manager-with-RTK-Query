@@ -11,9 +11,10 @@ const Tasks = () => {
   const [isOpen, setIsOpen] = useState(false);
   // const { tasks } = useSelector((state) => state.tasksSlice);
   const {data: tasks} = useGetAllTaskQuery(undefined,{
-    pollingInterval:20000,
+    pollingInterval:2000,
     refetchOnMountOrArgChange:true,
     
+
   });
   console.log(tasks);
   
