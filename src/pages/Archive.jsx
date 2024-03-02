@@ -1,10 +1,12 @@
 import { useSelector } from 'react-redux';
 import TaskCard from '../components/tasks/TaskCard';
+import { useGetAllTaskQuery } from '../redux/api/baseApi';
 
 const Archive = () => {
-  const { tasks } = useSelector((state) => state.tasksSlice);
+  // const { tasks } = useSelector((state) => state.tasksSlice);
+  const {data:tasks} = useGetAllTaskQuery();
 
-  const archiveTasks = tasks.filter((item) => item.status == 'archive');
+  const archiveTasks = tasks?.filter((item) => item.status == 'archive');
 
   return (
     <div className="p-10">

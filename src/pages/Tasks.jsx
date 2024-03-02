@@ -10,7 +10,11 @@ import { useGetAllTaskQuery } from '../redux/api/baseApi';
 const Tasks = () => {
   const [isOpen, setIsOpen] = useState(false);
   // const { tasks } = useSelector((state) => state.tasksSlice);
-  const {data: tasks} = useGetAllTaskQuery();
+  const {data: tasks} = useGetAllTaskQuery(undefined,{
+    pollingInterval:20000,
+    refetchOnMountOrArgChange:true,
+    
+  });
   console.log(tasks);
   
   // useEffect(() => {},[tasks])
